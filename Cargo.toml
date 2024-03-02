@@ -2,6 +2,12 @@
 name = "socket_selector"
 version = "0.1.0"
 edition = "2021"
+include = [
+    "**/*.rs",
+    "Cargo.toml",
+]
 
 [dependencies]
 mio = { version = "0.8.10", features = ["os-poll", "net"] }
+
+
