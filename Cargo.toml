@@ -1,5 +1,10 @@
 [package]
 name = "socket_selector"
+author = "Bruce0203 <brucefreedy@gmail.com>"
+description = "socket selector crate right on the mio layer"
+repository = "https://github.com/Bruce0203/socket-selector"
+license = "MIT"
+readme = "README.md"
 version = "0.1.0"
 edition = "2021"
 include = [
