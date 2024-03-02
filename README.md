@@ -1,3 +1,2 @@
 # socket selector 
-The socket selector crate sits directly on top of the mio layer.
-
+A thin socket selector layer built on top of the mio layer.
