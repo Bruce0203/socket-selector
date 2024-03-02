@@ -29,6 +29,11 @@ impl<Player: Socket> ConnectionPool<Player> {
             .as_mut()
             .expect("socket is none")
     }
+
+    fn remove_socket(&mut self, token_index: usize) {
+        self.index_queue.push(token_index);
+        self.indexed_connection[token_index] = None;
+    }
 }
 
 pub trait ConnectionHandler<Player: Socket>: Sized {
@@ -123,8 +128,7 @@ impl<Player: Socket, Server: ConnectionHandler<Player>> Selector<Player, Server>
                                 .deregister(player.get_stream())
                                 .expect("cannot deregister socket");
                             connection_handler.handle_connection_closed(player);
-                            connection_pool.index_queue.push(token_index);
-                            connection_pool.indexed_connection[token_index] = None;
+                            connection_pool.remove_socket(token_index);
                             continue;
                         }
                         let read = read_result.unwrap();
@@ -133,8 +137,7 @@ impl<Player: Socket, Server: ConnectionHandler<Player>> Selector<Player, Server>
                                 .deregister(player.get_stream())
                                 .expect("cannot deregister socket");
                             connection_handler.handle_connection_closed(player);
-                            connection_pool.index_queue.push(token_index);
-                            connection_pool.indexed_connection[token_index] = None;
+                            connection_pool.remove_socket(token_index);
                             continue;
                         } else {
                             let read_buf = &buf[0..read];
