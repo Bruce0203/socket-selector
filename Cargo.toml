@@ -5,7 +5,7 @@ description = "A thin socket selector layer built on top of the mio layer."
 repository = "https://github.com/Bruce0203/socket-selector"
 license = "MIT"
 readme = "README.md"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 include = [
     "**/*.rs",
