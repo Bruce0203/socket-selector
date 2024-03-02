@@ -3,7 +3,7 @@ use mio::{
     Events, Interest, Poll, Token,
 };
 use std::{
-    io::{Read, Result},
+    io::{Read, Result, Write},
     net::SocketAddr,
     time::Duration,
 };
@@ -144,13 +144,13 @@ impl<Player: Socket, Server: ConnectionHandler<Player>> Selector<Player, Server>
                             if let Err(err) =
                                 connection_handler.handle_connection_read(player, read_buf)
                             {
+                                player.get_stream().flush();
                                 println!("Read handle error: {}", err);
                                 poll.registry()
                                     .deregister(player.get_stream())
                                     .expect("cannot deregister socket");
                                 connection_handler.handle_connection_closed(player);
-                                connection_pool.index_queue.push(token_index);
-                                connection_pool.indexed_connection[token_index] = None;
+                                connection_pool.remove_socket(token_index);
                                 continue;
                             }
                         }
